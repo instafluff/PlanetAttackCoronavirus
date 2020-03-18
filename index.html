@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<!-- Global site tag (gtag.js) - Google Analytics -->
+  	<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-135113520-1"></script>
+  	<script>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag('js', new Date());
+  		gtag('config', 'UA-135113520-1');
+  	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>PlanetAttackCoronavirus - Easy Search through COVID-19 Coronavirus-related Research Papers analyzed using Microsoft Azure AI!</title>
+  </head>
+  <body>
+	  <div class="container">
+	  	<p><i>Let's fight the SARS-CoV2 virus pandemic through research and collaboration!</i></p>
+	    <h5><u>Planet Attack Coronavirus</u> by <a href="https://www.instafluff.tv">Instafluff</a><br/><small>Research papers analyzed for key phrases using <a href="https://aka.ms/instafluff-social" target="_blank">Microsoft Azure AI Text Analysis</a>.</small></h5>
+		<h6>Search through over 29,000 COVID-19 Coronavirus-Related Research Papers easily!</h6>
+		<form id="search-form">
+		  <div class="form-row align-items-center">
+			  <div class="input-group mb-3">
+				  <input id="inlineFormInput" type="text" class="form-control" placeholder="Type any search keywords or question" aria-label="Type any search keywords or question" aria-describedby="basic-addon2">
+				  <div class="input-group-append">
+				    <button id="search-button" type="submit" class="btn btn-primary" type="button">Search</button>
+				  </div>
+			  </div>
+		  </div>
+		</form>
+		<div id="search-spinner" class="spinner-border text-warning" role="status">
+		  <span class="sr-only">Loading...</span>
+		</div>
+		<ul id="search-results" class="list-group">
+		</ul>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.6.1/fuse.min.js"></script>
+	<script>
+		let papers = [];
+		let fuse = null;
+
+		$( "#search-form" ).hide();
+		$( "#search-form" ).submit( ( event ) => {
+			event.preventDefault();
+			$( "#search-results" ).empty();
+			$( "#search-spinner" ).show();
+			setTimeout( () => {
+				let results = search( $( "#inlineFormInput" ).val() );
+				// console.log( results );
+				results.filter( r => r.score < 0.5 ).forEach( r => {
+					$( "#search-results" ).append( `<li class="list-group-item"><a href="${( r.item.doi.startsWith( "http" ) ? '' : 'http://dx.doi.org/' ) + r.item.doi}" target="_blank">${r.item.title}</a> (${( 1.0 - r.score ).toFixed( 3 )})</li>` );
+				});
+				$( "#search-spinner" ).hide();
+			}, 500 );
+		});
+
+		async function loadPaperData() {
+			keyPhrases = await fetch( "public/keyphrases.json" ).then( r => r.json() );
+			// console.log( keyPhrases );
+			papers = Object.keys( keyPhrases ).map( x => keyPhrases[ x ] );
+
+			var options = {
+			  shouldSort: true,
+			  includeScore: true,
+			  keys: [{
+			    name: 'keyPhrases.title',
+			    weight: 0.7
+			  }, {
+			    name: 'keyPhrases.abstract',
+			    weight: 0.3
+			  }]
+			};
+			fuse = new Fuse( papers, options );
+
+			$( "#search-form" ).show();
+			$( "#search-spinner" ).hide();
+		}
+
+		function search( term ) {
+			return fuse.search( term );
+		}
+		loadPaperData();
+	</script>
+  </body>
+</html>

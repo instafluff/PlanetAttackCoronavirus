@@ -1,0 +1,42 @@
+{
+  "name": "planetattackcoronavirus",
+  "version": "1.0.0",
+  "description": "AI-Analyzed Easily-Searchable CORD-19 Coronavirus Research Papers on COVID-19 using Microsoft Azure!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/instafluff/PlanetAttackCoronavirus.git"
+  },
+  "keywords": [
+    "Coronavirus",
+    "COVID-19",
+    "CORD-19",
+    "Research",
+    "Papers",
+    "Open",
+    "Dataset",
+    "AI",
+    "Artificial",
+    "Intelligence",
+    "Azure",
+    "Microsoft",
+    "Instafluff",
+    "Planet",
+    "Virus"
+  ],
+  "author": "Instafluff",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/instafluff/PlanetAttackCoronavirus/issues"
+  },
+  "homepage": "https://github.com/instafluff/PlanetAttackCoronavirus#readme",
+  "dependencies": {
+    "csv-parse": "^4.8.8",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
+    "webwebweb": "^1.1.10"
+  }
+}

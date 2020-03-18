@@ -1,0 +1,12 @@
+NEW PLAN OF ATTACK
+1. Download Coronavirus Papers
+2. Figure out the paper schema for parsing
+3. Create repository
+4a. FREEZE and Crash PC
+4b. Write new plan of attack to replace the old plan of attack
+5. Send to Azure Text Analysis API for Analysis
+6. Compile the list of analyzed info & meta tags/phrases
+7. Create a database of the analyzed tags with the linked Papers
+8. Create a webpage to search through the papers via keywords & questions
+9. TEST & SUCCESS!
+10. SAVE THE CHEERLEADER. SAVE THE WORLD.
